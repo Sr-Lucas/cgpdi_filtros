@@ -1,7 +1,4 @@
-.bmp
-.png
-.jpeg
-.jpg
-
-/filtered/*
-/uploads/*
+./*.bmp
+./*.png
+./*.jpeg
+./*.jpg
