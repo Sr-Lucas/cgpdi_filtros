@@ -34,7 +34,7 @@ def uploadFile():
 
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-    return jsonify({ "success": True})
+    return jsonify({ "success": True, "data": { "filename": filename }})
 
 @app.route('/files/<filename>', methods=['GET'])
 def getFile(filename):
