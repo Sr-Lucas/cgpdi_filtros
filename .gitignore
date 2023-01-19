@@ -3,5 +3,5 @@
 .jpeg
 .jpg
 
-/filtered
-/uploads
+/filtered/*
+/uploads/*
