@@ -36,10 +36,9 @@ def uploadFile():
 
     return jsonify({ "success": True})
 
-@app.route('/files/', methods=['GET'])
-def getFile():
-    filename = request.args.get('filename')
-    return send_file(f"./assets/images/{filename}")
+@app.route('/files/<filename>', methods=['GET'])
+def getFile(filename):
+    return send_file(f"../filtered/{filename}")
 
 ### ROUTES
 @app.route('/negative_filter', methods=['POST'])
@@ -50,11 +49,9 @@ def negativeFilter():
     if not filename:
         return jsonify({ "success": False })
 
-    print("filename:" + filename)
-
     img = Image.open("./uploads/" + filename)
     nf(img)
-    img.save('./assets/images/' + filename)
+    img.save('./filtered/' + filename)
 
     return jsonify({ 
         'success': True, 
@@ -62,9 +59,6 @@ def negativeFilter():
             'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
         } 
     })
-  
-
-### ROUTES
 
 
 app.run(port=FLASK_PORT,host=FLASK_HOST,debug=True)
