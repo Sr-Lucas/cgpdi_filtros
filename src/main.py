@@ -1,15 +1,17 @@
 from PIL import Image
-from filter_core import inverseLogFilter, logFilter, negativeFilter
+from filter_core import minFilter
 
 img = Image.open("./assets/images/teste1.bmp")
+gray_img = img.convert("L")
 
 # Display the original image
-img.show()
+gray_img.show()
 
 # Filtro
-negativeFilter(img)
+cw = minFilter(gray_img)
 
 # Display the negative image
-img.show()
+cw.show()
+
 
 

@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 
 from time import time
 
-from filter_core import inverseLogFilter, logFilter, negativeFilter as nf
+from filter_core import inverseLogFilter as ilf, logFilter as lf, negativeFilter as nf
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'bmp'}
@@ -60,5 +60,42 @@ def negativeFilter():
         } 
     })
 
+@app.route('/logaritmic_filter')
+def logaritmicFilter():
+    data = request.get_json()
+    filename = data.get('filename')
+
+    if not filename:
+        return jsonify({ "success": False })
+    
+    img = Image.open("./uploads/" + filename)
+    lf(img)
+    img.save('./filtered/' + filename)
+
+    return jsonify({ 
+        'success': True, 
+        "data": {
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+        } 
+    })
+
+@app.route('/inverse_logaritmic_filter')
+def inverseLogaritmicFilter():
+    data = request.get_json()
+    filename = data.get('filename')
+
+    if not filename:
+        return jsonify({ "success": False })
+    
+    img = Image.open("./uploads/" + filename)
+    ilf(img)
+    img.save('./filtered/' + filename)
+
+    return jsonify({ 
+        'success': True, 
+        "data": {
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+        } 
+    })
 
 app.run(port=FLASK_PORT,host=FLASK_HOST,debug=True)
