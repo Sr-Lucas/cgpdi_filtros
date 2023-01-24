@@ -1,6 +1,9 @@
 import math
+from scipy import stats as st
 from PIL import Image
 import numpy as np
+
+MASK_SIZE = 3
 
 def negativeFilter(img):
   copy = img.copy()
@@ -170,22 +173,28 @@ def expansion(img, a = 3, b = 1):
   
   return imgCopy
 
+def fillMask(img, x, y):
+  mask = np.zeros((3, 3))
+
+  mask[0][0] = img.getpixel((x-1, y-1))
+  mask[0][1] = img.getpixel((x, y-1))
+  mask[0][2] = img.getpixel((x+1, y-1))
+  mask[1][0] = img.getpixel((x-1, y))
+  mask[1][1] = img.getpixel((x, y))
+  mask[1][2] = img.getpixel((x+1, y))
+  mask[2][0] = img.getpixel((x-1, y+1))
+  mask[2][1] = img.getpixel((x, y+1))
+  mask[2][2] = img.getpixel((x+1, y+1))
+  
+  return mask
+
 
 def maxFilter(img):
   imgCopy = img.copy()
-  mask = np.zeros((3, 3))
 
   for y in range(0, img.size[0]-1):
     for x in range(0, img.size[1]-1):
-      mask[0][0] = img.getpixel((x-1, y-1))
-      mask[0][1] = img.getpixel((x, y-1))
-      mask[0][2] = img.getpixel((x+1, y-1))
-      mask[1][0] = img.getpixel((x-1, y))
-      mask[1][1] = img.getpixel((x, y))
-      mask[1][2] = img.getpixel((x+1, y))
-      mask[2][0] = img.getpixel((x-1, y+1))
-      mask[2][1] = img.getpixel((x, y+1))
-      mask[2][2] = img.getpixel((x+1, y+1))
+      mask = fillMask(img, x, y)
 
       max = 0
       for a in range(0, 3):
@@ -204,15 +213,7 @@ def minFilter(img):
 
   for y in range(0, img.size[0]-1):
     for x in range(0, img.size[1]-1):
-      mask[0][0] = img.getpixel((x-1, y-1))
-      mask[0][1] = img.getpixel((x, y-1))
-      mask[0][2] = img.getpixel((x+1, y-1))
-      mask[1][0] = img.getpixel((x-1, y))
-      mask[1][1] = img.getpixel((x, y))
-      mask[1][2] = img.getpixel((x+1, y))
-      mask[2][0] = img.getpixel((x-1, y+1))
-      mask[2][1] = img.getpixel((x, y+1))
-      mask[2][2] = img.getpixel((x+1, y+1))
+      mask = fillMask(img, x, y)
 
       min = 255
       for a in range(0, 3):
@@ -221,5 +222,57 @@ def minFilter(img):
             min = mask[a][b]
       
       imgCopy.putpixel((x, y), min.__ceil__())
+  
+  return imgCopy
+
+
+
+def modaFilter(img):
+  imgCopy = img.copy()
+  mask = np.zeros((3, 3))
+
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask = fillMask(img, x, y)
+
+      modeResult = st.mode(mask.flatten())
+
+      imgCopy.putpixel((x, y), modeResult.mode[0].__ceil__())
+  
+  return imgCopy
+
+
+def pseudoMedianaFilter(img):
+  imgCopy = img.copy()
+  mask = np.zeros((3, 3))
+
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask = fillMask(img, x, y)
+      L = MASK_SIZE * MASK_SIZE
+      M = int((L + 1)/2)
+
+      maskFlattened = mask.flatten()
+
+      arr = []
+      i = 0
+      while M+i <= L:
+        arr.append([])
+        for k in range(i, M+i):
+          arr[i].append(maskFlattened[k])
+        i += 1
+      
+      maxes = []
+      mins = []
+      for i in range(0, arr.__len__()-1):
+        maxes.append(max(arr[i]))
+        mins.append(min(arr[i]))
+      
+      minmax = min(maxes)
+      maxmin = max(mins)
+
+      pseudoMedian = (maxmin + minmax)/2
+
+      imgCopy.putpixel((x, y), pseudoMedian.__ceil__())
   
   return imgCopy
