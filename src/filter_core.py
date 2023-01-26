@@ -276,3 +276,53 @@ def pseudoMedianaFilter(img):
       imgCopy.putpixel((x, y), pseudoMedian.__ceil__())
   
   return imgCopy
+
+
+
+def NNRAmpliation(img, size):
+  imgCopy = img.copy()
+
+  return imgCopy.resize((size, size), Image.Resampling.NEAREST)
+
+
+def BIRAmpliation(img, size):
+  imgCopy = img.copy()
+
+  return imgCopy.resize((size, size), Image.Resampling.BILINEAR)
+
+
+def kNearestNeightborFilter(img, k):
+  if k >= (MASK_SIZE * MASK_SIZE) - 1:
+    return 0
+
+  imgCopy = img.copy()
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask = fillMask(img, x, y)
+
+      middleX = (MASK_SIZE/2).__floor__()
+      middleY = (MASK_SIZE/2).__floor__()
+
+      pivo = mask[middleX][middleY]
+    
+      maskFlatten = mask.flatten()
+      maskFlatten[int(mask.size/2)] = 99999999
+
+      nearCalcArr = []
+      for i in range(0, mask.size):
+        nearCalcArr.append(abs(maskFlatten[i] - pivo))
+      
+      sortedArr = nearCalcArr.copy()
+      sortedArr.sort()
+
+      sum = 0
+      for i in range(0, k):
+        index = nearCalcArr.index(sortedArr[i])
+        sum += maskFlatten[index]
+      
+      knnResult = sum/k
+
+      imgCopy.putpixel((x, y), knnResult.__ceil__())
+
+  return imgCopy
+
