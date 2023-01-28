@@ -2,6 +2,7 @@ import math
 from scipy import stats as st
 from PIL import Image
 import numpy as np
+from matplotlib import pyplot as plt
 
 MASK_SIZE = 3
 
@@ -326,3 +327,43 @@ def kNearestNeightborFilter(img, k):
 
   return imgCopy
 
+
+def getImghistogram(img, imgName):  
+  ih = img.size[0]-1
+  iw = img.size[1]-1
+
+  hist = np.zeros([256], np.int32)
+
+  for x in range(0, ih):
+    for y in range(0, iw):
+      hist[img.getpixel((y, x))] += 1
+  
+  plt.figure()
+  plt.title('Gray Scale Histogram')
+  plt.xlabel('Intensity Level')
+  plt.ylabel('Intesity Frequency')
+  plt.xlim([0, 256])
+  plt.plot(hist)
+  plt.savefig(f"./hist/{imgName}.jpg")
+
+
+def equalizateImage(img):
+  imgArr = np.asarray(img)
+  hist = np.bincount(imgArr.flatten(), minlength=256)
+
+  numPixels = np.sum(hist)
+  hist = hist/numPixels
+
+  chistogramArr = np.cumsum(hist)
+
+  transforMap = np.floor(255 * chistogramArr).astype(np.uint8)
+
+  imgList = list(imgArr.flatten())
+
+  eqImgList = [transforMap[p] for p in imgList]
+
+  eqImgArr = np.reshape(np.asarray(eqImgList), imgArr.shape)
+
+  equalizedImage = Image.fromarray(eqImgArr, mode='L')
+
+  return equalizedImage
