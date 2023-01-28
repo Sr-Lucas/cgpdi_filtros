@@ -1,8 +1,10 @@
 import math
+from time import time
 from scipy import stats as st
 from PIL import Image
 import numpy as np
 from matplotlib import pyplot as plt
+import cv2
 
 MASK_SIZE = 3
 
@@ -367,3 +369,14 @@ def equalizateImage(img):
   equalizedImage = Image.fromarray(eqImgArr, mode='L')
 
   return equalizedImage
+
+
+def sumImages(img1Path: str, img2Path: str, img1percentual = 0.5, img2percentual = 0.5):
+  img1 = cv2.imread(img1Path)
+  img2 = cv2.imread(img2Path)
+  dst = cv2.addWeighted(img1, img1percentual, img2, img2percentual, 0)
+
+  ext = img1Path.split('/').pop().split('.')[1]
+  filename = str(time()).replace('.', '') + "." + ext
+
+  cv2.imwrite(f"./filtered/{filename}", dst)
