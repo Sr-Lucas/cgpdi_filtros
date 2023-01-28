@@ -380,3 +380,5 @@ def sumImages(img1Path: str, img2Path: str, img1percentual = 0.5, img2percentual
   filename = str(time()).replace('.', '') + "." + ext
 
   cv2.imwrite(f"./filtered/{filename}", dst)
+
+  return f"{filename}.{ext}"
