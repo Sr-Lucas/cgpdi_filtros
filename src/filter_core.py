@@ -382,3 +382,41 @@ def sumImages(img1Path: str, img2Path: str, img1percentual = 0.5, img2percentual
   cv2.imwrite(f"./filtered/{filename}", dst)
 
   return f"{filename}.{ext}"
+
+
+def laplaciano(img):
+  # 2x NC central - NC Esquerdo - NC Direito
+
+  imgCopy = img.copy()
+    
+  mask = np.zeros([3])
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask[0] = img.getpixel((x-1, y))
+      mask[1] = img.getpixel((x, y))
+      mask[2] = img.getpixel((x+1, y))
+
+      pixelR = (2 * mask[1]) - mask[0] - mask[2]
+
+      imgCopy.putpixel((x, y), pixelR.__ceil__())
+    
+  return imgCopy
+
+
+def hightBoost(img):
+  # (2x NC central - NC Esquerdo - NC Direito) + NC Central
+
+  imgCopy = img.copy()
+    
+  mask = np.zeros([3])
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask[0] = img.getpixel((x-1, y))
+      mask[1] = img.getpixel((x, y))
+      mask[2] = img.getpixel((x+1, y))
+
+      pixelR = ((2 * mask[1]) - mask[0] - mask[2]) + mask[1]
+
+      imgCopy.putpixel((x, y), pixelR.__ceil__())
+    
+  return imgCopy

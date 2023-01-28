@@ -1,14 +1,16 @@
 from PIL import Image
-from filter_core import sumImages
+from filter_core import hightBoost
 
-img = Image.open("./assets/images/teste8.bmp")
+img = Image.open("./assets/images/teste1.bmp")
 gray_img = img.convert("L")
 
 # Display the original image
 gray_img.show()
 
 # Filtro
-sumImages("./assets/images/teste1.bmp", "./assets/images/teste8.bmp")
+r = hightBoost(gray_img)
+
+r.show()
 
 
 
