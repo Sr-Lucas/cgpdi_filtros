@@ -420,3 +420,54 @@ def hightBoost(img):
       imgCopy.putpixel((x, y), pixelR.__ceil__())
     
   return imgCopy
+
+
+def prewitt(img):
+    imgCopy = img.copy()
+
+    for y in range(0, img.size[0]-1):
+      for x in range(0, img.size[1]-1):
+        mask = fillMask(img, x, y)
+
+        z1 = mask[0][0]
+        z2 = mask[0][1]
+        z3 = mask[0][2]
+        z4 = mask[1][0]
+        z5 = mask[1][1]
+        z6 = mask[1][2]
+        z7 = mask[2][0]
+        z8 = mask[2][1]
+        z9 = mask[2][2]
+
+        pixelR = abs((z7 + z8 + z9) - (z1 + z2 + z3)) + abs((z3 + z6 + z9) - (z1 + z4 + z7))
+
+        imgCopy.putpixel((x, y), pixelR.__ceil__())
+    
+
+    return imgCopy
+
+
+
+def sobel(img):
+    imgCopy = img.copy()
+
+    for y in range(0, img.size[0]-1):
+      for x in range(0, img.size[1]-1):
+        mask = fillMask(img, x, y)
+
+        z1 = mask[0][0]
+        z2 = mask[0][1]
+        z3 = mask[0][2]
+        z4 = mask[1][0]
+        z5 = mask[1][1]
+        z6 = mask[1][2]
+        z7 = mask[2][0]
+        z8 = mask[2][1]
+        z9 = mask[2][2]
+
+        pixelR = abs((z7 + (2*z8) + z9) - (z1 + (2*z2) + z3)) + abs((z3 + (2*z6) + z9) - (z1 + (2*z4) + z7))
+
+        imgCopy.putpixel((x, y), pixelR.__ceil__())
+    
+
+    return imgCopy
