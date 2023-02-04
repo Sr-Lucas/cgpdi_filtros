@@ -282,7 +282,7 @@ def pseudoMedianaFilter(img):
 
 
 
-def NNRAmpliation(img, size):
+def NNRAmpliation(img, size: int):
   imgCopy = img.copy()
 
   return imgCopy.resize((size, size), Image.Resampling.NEAREST)
@@ -294,7 +294,7 @@ def BIRAmpliation(img, size):
   return imgCopy.resize((size, size), Image.Resampling.BILINEAR)
 
 
-def kNearestNeightborFilter(img, k):
+def kNearestNeightborFilter(img, k: int):
   if k >= (MASK_SIZE * MASK_SIZE) - 1:
     return 0
 
@@ -330,7 +330,7 @@ def kNearestNeightborFilter(img, k):
   return imgCopy
 
 
-def getImghistogram(img, imgName):  
+def makeImghistogram(img):  
   ih = img.size[0]-1
   iw = img.size[1]-1
 
@@ -340,13 +340,18 @@ def getImghistogram(img, imgName):
     for y in range(0, iw):
       hist[img.getpixel((y, x))] += 1
   
+  # make an image name of a timestamp
+  filename = str(time()).replace('.', '') + "." + 'jpg'
+  
   plt.figure()
   plt.title('Gray Scale Histogram')
   plt.xlabel('Intensity Level')
   plt.ylabel('Intesity Frequency')
   plt.xlim([0, 256])
   plt.plot(hist)
-  plt.savefig(f"./hist/{imgName}.jpg")
+  plt.savefig(f"./hist/{filename}")
+
+  return filename
 
 
 def equalizateImage(img):
