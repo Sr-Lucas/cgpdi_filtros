@@ -1,5 +1,5 @@
 from PIL import Image
-from filter_core import sobel
+from filter_core import logFilter
 
 img = Image.open("./assets/images/teste1.bmp")
 gray_img = img.convert("L")
@@ -8,7 +8,7 @@ gray_img = img.convert("L")
 gray_img.show()
 
 # Filtro
-r = sobel(gray_img)
+r = logFilter(gray_img)
 
 r.show()
 

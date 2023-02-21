@@ -281,17 +281,44 @@ def pseudoMedianaFilter(img):
   return imgCopy
 
 
+def expand_image_nn(image_path, scale_factor):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    rows, cols = image.shape[:2]
 
-def NNRAmpliation(img, size: int):
-  imgCopy = img.copy()
+    new_rows, new_cols = int(rows * scale_factor), int(cols * scale_factor)
 
-  return imgCopy.resize((size, size), Image.Resampling.NEAREST)
+    result = np.zeros((new_rows, new_cols), dtype=image.dtype)
 
+    row_scale, col_scale = float(rows) / new_rows, float(cols) / new_cols
 
-def BIRAmpliation(img, size):
-  imgCopy = img.copy()
+    for i in range(new_rows):
+        for j in range(new_cols):
+            row, col = int(i * row_scale), int(j * col_scale)
+            result[i, j] = image[row, col]
 
-  return imgCopy.resize((size, size), Image.Resampling.BILINEAR)
+    return result
+
+def expand_image_bilinear(input_path, scale_factor):
+   # Load an image using OpenCV
+    image = cv2.imread(input_path, cv2.IMREAD_GRAYSCALE)
+    # Get the size of the original image
+    rows, cols = image.shape[:2]
+    # Calculate the new size of the image
+    new_rows, new_cols = int(rows * scale_factor), int(cols * scale_factor)
+    # Create a blank canvas with the new size
+    result = np.zeros((new_rows, new_cols), dtype=image.dtype)
+    # Calculate the scale factors
+    row_scale, col_scale = float(rows - 1) / (new_rows - 1), float(cols - 1) / (new_cols - 1)
+    # Iterate over the new image and find the values using bilinear interpolation
+    for i in range(new_rows):
+        for j in range(new_cols):
+            row, col = i * row_scale, j * col_scale
+            row_1, row_2 = int(row), min(int(row) + 1, rows - 1)
+            col_1, col_2 = int(col), min(int(col) + 1, cols - 1)
+            value_1 = (col_2 - col) * image[row_1, col_1] + (col - col_1) * image[row_1, col_2]
+            value_2 = (col_2 - col) * image[row_2, col_1] + (col - col_1) * image[row_2, col_2]
+            result[i, j] = (row_2 - row) * value_1 + (row - row_1) * value_2
+    return result
 
 
 def kNearestNeightborFilter(img, k: int):

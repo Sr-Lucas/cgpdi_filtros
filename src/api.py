@@ -1,6 +1,7 @@
 import os
 from PIL import Image
 from flask import Flask, jsonify, request, flash, send_file
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 from time import time
@@ -16,6 +17,7 @@ FLASK_PORT = '3333'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 def allowedFile(filename):
     return '.' in filename and \
@@ -25,7 +27,7 @@ def allowedFile(filename):
 def uploadFile():
     # check if the post request has the file part
     if 'file' not in request.files:
-        flash('No file part')
+        print('No file part')
         return jsonify({ "success": False})
     
     file = request.files['file']
@@ -65,7 +67,7 @@ def negativeFilter():
         } 
     })
 
-@app.route('/logaritmic_filter')
+@app.route('/logarithmic_filter', methods=['POST'])
 def logaritmicFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -84,7 +86,7 @@ def logaritmicFilter():
         } 
     })
 
-@app.route('/inverse_logaritmic_filter')
+@app.route('/inverse_logaritmic_filter', methods=['POST'])
 def inverseLogaritmicFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -103,7 +105,7 @@ def inverseLogaritmicFilter():
         } 
     })
 
-@app.route('/nth-power-filter')
+@app.route('/nth-power-filter', methods=['POST'])
 def nthPoewerFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -123,7 +125,7 @@ def nthPoewerFilter():
         } 
     })
 
-@app.route('/nth-root-filter')
+@app.route('/nth-root-filter', methods=['POST'])
 def nthRootFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -143,7 +145,7 @@ def nthRootFilter():
         } 
     })
 
-@app.route('/horizontal-mirror-filter')
+@app.route('/horizontal-mirror-filter', methods=['POST'])
 def horizontalMirrorFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -162,7 +164,7 @@ def horizontalMirrorFilter():
         } 
     })
 
-@app.route('/vertical-mirror-filter')
+@app.route('/vertical-mirror-filter', methods=['POST'])
 def verticalMirrorFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -181,7 +183,7 @@ def verticalMirrorFilter():
         } 
     })
 
-@app.route('/rotation-90-clockwise-filter')
+@app.route('/rotation-90-clockwise-filter', methods=['POST'])
 def rotation90ClockwiseFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -200,7 +202,7 @@ def rotation90ClockwiseFilter():
         } 
     })
 
-@app.route('/rotation-90-anticlockwise-filter')
+@app.route('/rotation-90-anticlockwise-filter', methods=['POST'])
 def rotation90AnticlockwiseFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -219,7 +221,7 @@ def rotation90AnticlockwiseFilter():
         } 
     })
 
-@app.route('/rotation-180-filter')
+@app.route('/rotation-180-filter', methods=['POST'])
 def rotation180Filter():
     data = request.get_json()
     filename = data.get('filename')
@@ -238,7 +240,7 @@ def rotation180Filter():
         } 
     })
 
-@app.route('/compression')
+@app.route('/compression', methods=['POST'])
 def compression():
     data = request.get_json()
     filename = data.get('filename')
@@ -259,7 +261,7 @@ def compression():
         } 
     })
 
-@app.route('/expansion')
+@app.route('/expansion', methods=['POST'])
 def expansion():
     data = request.get_json()
     filename = data.get('filename')
@@ -280,7 +282,7 @@ def expansion():
         } 
     })
 
-@app.route('/max-filter')
+@app.route('/max-filter', methods=['POST'])
 def maxFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -299,7 +301,7 @@ def maxFilter():
         } 
     })
 
-@app.route('/min-filter')
+@app.route('/min-filter', methods=['POST'])
 def minFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -318,7 +320,7 @@ def minFilter():
         } 
     })
 
-@app.route('/moda-filter')
+@app.route('/moda-filter', methods=['POST'])
 def modaFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -337,7 +339,7 @@ def modaFilter():
         } 
     })
 
-@app.route('/pseudo-mediana-filter')
+@app.route('/pseudo-mediana-filter', methods=['POST'])
 def pseudoMedianaFilter():
     data = request.get_json()
     filename = data.get('filename')
@@ -356,7 +358,7 @@ def pseudoMedianaFilter():
         } 
     })
 
-@app.route('/nnr-ampliation')
+@app.route('/nnr-ampliation', methods=['POST'])
 def nnrAmpliation():
     data = request.get_json()
     filename = data.get('filename')
@@ -380,7 +382,7 @@ def nnrAmpliation():
         } 
     })
 
-@app.route('/bir-ampliation')
+@app.route('/bir-ampliation', methods=['POST'])
 def birAmpliation():
     data = request.get_json()
     filename = data.get('filename')
@@ -404,7 +406,7 @@ def birAmpliation():
         } 
     })
 
-@app.route('/k-nearest-neighbour')
+@app.route('/k-nearest-neighbour', methods=['POST'])
 def kNearestNeighbour():
     data = request.get_json()
     filename = data.get('filename')
@@ -424,7 +426,7 @@ def kNearestNeighbour():
         } 
     })
 
-@app.route('/make-histogram')
+@app.route('/make-histogram', methods=['POST'])
 def makeHistogram():
     data = request.get_json()
     filename = data.get('filename')
@@ -442,7 +444,7 @@ def makeHistogram():
         } 
     })
 
-@app.route('/equalize-image')
+@app.route('/equalize-image', methods=['POST'])
 def equalizeImage():
     data = request.get_json()
     filename = data.get('filename')
@@ -461,7 +463,7 @@ def equalizeImage():
         } 
     })
 
-@app.route('/sum-images')
+@app.route('/sum-images', methods=['POST'])
 def sumImages():
     data = request.get_json()
     filename1 = data.get('filename1')
@@ -480,7 +482,7 @@ def sumImages():
         } 
     })
 
-@app.route('/laplaciano')
+@app.route('/laplaciano', methods=['POST'])
 def laplaciano():
     data = request.get_json()
     filename = data.get('filename')
@@ -499,7 +501,7 @@ def laplaciano():
         } 
     })
 
-@app.route('/hightboost')
+@app.route('/hightboost', methods=['POST'])
 def hightboost():
     data = request.get_json()
     filename = data.get('filename')
@@ -519,7 +521,7 @@ def hightboost():
         } 
     })
 
-@app.route('/prewitt')
+@app.route('/prewitt', methods=['POST'])
 def prewitt():
     data = request.get_json()
     filename = data.get('filename')
@@ -538,7 +540,7 @@ def prewitt():
         } 
     })
 
-@app.route('/sobel')
+@app.route('/sobel', methods=['POST'])
 def sobel():
     data = request.get_json()
     filename = data.get('filename')
