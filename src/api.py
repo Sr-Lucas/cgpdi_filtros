@@ -3,6 +3,7 @@ from PIL import Image
 from flask import Flask, jsonify, request, flash, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+import os
 
 from time import time
 
@@ -58,12 +59,16 @@ def negativeFilter():
 
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.negativeFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -77,12 +82,16 @@ def logaritmicFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.logFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -96,12 +105,16 @@ def inverseLogaritmicFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.inverseLogFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -116,12 +129,16 @@ def nthPoewerFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.nthPoewerFilter(img, gamma)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -136,12 +153,16 @@ def nthRootFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.nthRootFilter(img, gamma)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -155,12 +176,16 @@ def horizontalMirrorFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.horizontalMirroringFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -174,12 +199,16 @@ def verticalMirrorFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.verticalMirroringFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -193,12 +222,16 @@ def rotation90ClockwiseFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.rotation90clockwise(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -212,12 +245,16 @@ def rotation90AnticlockwiseFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.rotation90anticlockwise(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -231,12 +268,16 @@ def rotation180Filter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.rotation180(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -252,12 +293,16 @@ def compression():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.compression(img, a, b)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -273,17 +318,22 @@ def expansion():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.expansion(img, a, b)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
 @app.route('/max-filter', methods=['POST'])
 def maxFilter():
+    print('teste')
     data = request.get_json()
     filename = data.get('filename')
 
@@ -292,12 +342,16 @@ def maxFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.maxFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -311,12 +365,16 @@ def minFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.minFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -330,12 +388,16 @@ def modaFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.modaFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -349,12 +411,16 @@ def pseudoMedianaFilter():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.pseudoMedianaFilter(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -373,12 +439,16 @@ def nnrAmpliation():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.nnrAmpliation(img, int(size))
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -397,12 +467,16 @@ def birAmpliation():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.birAmpliation(img, int(size))
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -417,12 +491,16 @@ def kNearestNeighbour():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.kNearestNeighbour(img, int(k))
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -435,7 +513,7 @@ def makeHistogram():
         return jsonify({ "success": False })
     
     img = Image.open("./uploads/" + filename)
-    filename = filter_core.makeHistogram(img)
+    filename = filter_core.makeImghistogram(img)
 
     return jsonify({ 
         'success': True, 
@@ -453,13 +531,17 @@ def equalizeImage():
         return jsonify({ "success": False })
     
     img = Image.open("./uploads/" + filename)
-    rimg = filter_core.equalizeImage(img)
-    rimg.save('./filtered/' + filename)
+    rimg = filter_core.equalizateImage(img)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -492,12 +574,16 @@ def laplaciano():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.laplaciano(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -512,12 +598,16 @@ def hightboost():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.hightBoost(img, int(k))
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -531,12 +621,16 @@ def prewitt():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.prewitt(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
@@ -550,12 +644,16 @@ def sobel():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.sobel(img)
-    rimg.save('./filtered/' + filename)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
 
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
         } 
     })
 
