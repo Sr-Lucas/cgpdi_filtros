@@ -7,3 +7,6 @@
 /filtered/*.png
 /filtered/*.jpeg
 /filtered/*.jpg
+
+/hist/*.bmp
+/hist/*.jpg
