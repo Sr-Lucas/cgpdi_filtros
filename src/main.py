@@ -1,5 +1,5 @@
 from PIL import Image
-from filter_core import expansion
+from filter_core import expand_image_nn, expand_image_bilinear
 
 img = Image.open("./assets/images/teste1.bmp")
 gray_img = img.convert("L")
@@ -8,9 +8,11 @@ gray_img = img.convert("L")
 gray_img.show()
 
 # Filtro
-r = expansion(gray_img, 3, 2)
+r = expand_image_bilinear("./assets/images/teste1.bmp", 2)
 
-r.show()
+resultImg = Image.open("./filtered/" + r)
+
+resultImg.show()
 
 
 

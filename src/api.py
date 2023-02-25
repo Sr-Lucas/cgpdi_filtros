@@ -594,13 +594,13 @@ def laplaciano():
 def hightboost():
     data = request.get_json()
     filename = data.get('filename')
-    k = data.get('k')
+    p = data.get('p')
 
     if not filename:
         return jsonify({ "success": False })
     
     img = Image.open("./uploads/" + filename)
-    rimg = filter_core.hightBoost(img, int(k))
+    rimg = filter_core.hightBoost(img, int(p))
 
     ext = filename.split('.')[1]
     newFilename = str(time()).replace('.', '') + "." + ext
@@ -647,6 +647,31 @@ def sobel():
     
     img = Image.open("./uploads/" + filename)
     rimg = filter_core.sobel(img)
+
+    ext = filename.split('.')[1]
+    newFilename = str(time()).replace('.', '') + "." + ext
+
+    rimg.save('./filtered/' + newFilename)
+
+    return jsonify({ 
+        'success': True, 
+        "data": {
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+        } 
+    })
+
+
+@app.route('/simulate_grey_level_reduction', methods=['POST'])
+def simulate_grey_level_reduction():
+    data = request.get_json()
+    filename = data.get('filename')
+    n = data.get('n')
+
+    if not filename:
+        return jsonify({ "success": False })
+    
+    img = Image.open("./uploads/" + filename)
+    rimg = filter_core.simulateGrayLevelPalletRedution(img, int(n))
 
     ext = filename.split('.')[1]
     newFilename = str(time()).replace('.', '') + "." + ext

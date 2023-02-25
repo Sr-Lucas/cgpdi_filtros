@@ -281,42 +281,71 @@ def pseudoMedianaFilter(img):
 
 def expand_image_nn(image_path, scale_factor):
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    rows, cols = image.shape[:2]
+    rows = image.shape[0]
+    cols = image.shape[1]
 
-    new_rows, new_cols = int(rows * scale_factor), int(cols * scale_factor)
+    new_rows = int(rows * scale_factor)
+    new_cols = int(cols * scale_factor)
 
     result = np.zeros((new_rows, new_cols), dtype=image.dtype)
 
-    row_scale, col_scale = float(rows) / new_rows, float(cols) / new_cols
+    row_scale = float(rows) / new_rows 
+    col_scale = float(cols) / new_cols
 
     for i in range(new_rows):
         for j in range(new_cols):
-            row, col = int(i * row_scale), int(j * col_scale)
+            row = int(i * row_scale) # 0 0 1 1 2 2 3 3
+            col = int(j * col_scale) # 0 0 1 1 2 2 3 3
             result[i, j] = image[row, col]
+    
+    ext = image_path.split('/').pop().split('.')[1]
+    filename = str(time()).replace('.', '') + "." + ext
 
-    return result
+    cv2.imwrite(f"./filtered/{filename}", result)
+
+    return filename
 
 def expand_image_bilinear(input_path, scale_factor):
    # Load an image using OpenCV
     image = cv2.imread(input_path, cv2.IMREAD_GRAYSCALE)
+    
     # Get the size of the original image
-    rows, cols = image.shape[:2]
+    rows = image.shape[0]
+    cols = image.shape[1]
+    
     # Calculate the new size of the image
-    new_rows, new_cols = int(rows * scale_factor), int(cols * scale_factor)
+    new_rows = int(rows * scale_factor)
+    new_cols = int(cols * scale_factor)
+    
     # Create a blank canvas with the new size
     result = np.zeros((new_rows, new_cols), dtype=image.dtype)
+    
     # Calculate the scale factors
-    row_scale, col_scale = float(rows - 1) / (new_rows - 1), float(cols - 1) / (new_cols - 1)
+    row_scale = float(rows - 1) / (new_rows - 1) # 255/511 = 0.5
+    col_scale = float(cols - 1) / (new_cols - 1) # 255/511 = 0.5
+
     # Iterate over the new image and find the values using bilinear interpolation
-    for i in range(new_rows):
-        for j in range(new_cols):
-            row, col = i * row_scale, j * col_scale
-            row_1, row_2 = int(row), min(int(row) + 1, rows - 1)
-            col_1, col_2 = int(col), min(int(col) + 1, cols - 1)
+    for i in range(new_rows): # 0 1 2 3 4 5 6 7
+        for j in range(new_cols): # 0 1 2 3 4 5 6 7
+            row = i * row_scale # 0 0.5 1 1.5 2 2.5 3 3.5  
+            col = j * col_scale # 0 0.5 1 1.5 2 2.5 3 3.5
+
+            row_1 = int(row) # 0 0 1 1 2 2 3 3
+            row_2 = min(int(row) + 1, rows - 1) #
+            col_1 = int(col) 
+            col_2 = min(int(col) + 1, cols - 1)
+
             value_1 = (col_2 - col) * image[row_1, col_1] + (col - col_1) * image[row_1, col_2]
             value_2 = (col_2 - col) * image[row_2, col_1] + (col - col_1) * image[row_2, col_2]
+
             result[i, j] = (row_2 - row) * value_1 + (row - row_1) * value_2
-    return result
+
+    ext = input_path.split('/').pop().split('.')[1]
+    filename = str(time()).replace('.', '') + "." + ext
+
+    cv2.imwrite(f"./filtered/{filename}", result)
+
+    return filename
 
 
 def kNearestNeightborFilter(img, k: int):
@@ -422,32 +451,57 @@ def laplaciano(img):
   mask = np.zeros([3])
   for y in range(0, img.size[0]-1):
     for x in range(0, img.size[1]-1):
-      mask[0] = img.getpixel((x-1, y))
-      mask[1] = img.getpixel((x, y))
-      mask[2] = img.getpixel((x+1, y))
+      z1 = mask[0][0]
+      z2 = mask[0][1]
+      z3 = mask[0][2]
+      z4 = mask[1][0]
+      z5 = mask[1][1]
+      z6 = mask[1][2]
+      z7 = mask[2][0]
+      z8 = mask[2][1]
+      z9 = mask[2][2]
 
-      pixelR = (2 * mask[1]) - mask[0] - mask[2]
+      pixelR = (- (z1 + z2 + z3 + z4 + z6 + z7 + z8 + z9)) + (8 * z5)
 
-      imgCopy.putpixel((x, y), pixelR.__ceil__())
+      if pixelR > 255:
+        pixelR = 255
+      elif pixelR < 0:
+        pixelR = 0
+
+      imgCopy.putpixel((x, y), int(pixelR))
     
   return imgCopy
 
 
-def hightBoost(img):
-  # (2x NC central - NC Esquerdo - NC Direito) + NC Central
+def hightBoost(img, percentual: float):
+  A = 1 + percentual
 
   imgCopy = img.copy()
     
-  mask = np.zeros([3])
   for y in range(0, img.size[0]-1):
     for x in range(0, img.size[1]-1):
-      mask[0] = img.getpixel((x-1, y))
-      mask[1] = img.getpixel((x, y))
-      mask[2] = img.getpixel((x+1, y))
+      mask = fillMask(img, x, y)
 
-      pixelR = ((2 * mask[1]) - mask[0] - mask[2]) + mask[1]
+      z1 = mask[0][0]
+      z2 = mask[0][1]
+      z3 = mask[0][2]
+      z4 = mask[1][0]
+      z5 = mask[1][1]
+      z6 = mask[1][2]
+      z7 = mask[2][0]
+      z8 = mask[2][1]
+      z9 = mask[2][2]
 
-      imgCopy.putpixel((x, y), pixelR.__ceil__())
+      pixelR = (- (z1 + z2 + z3 + z4 + z6 + z7 + z8 + z9)) + (8 * z5)
+      pixelR = pixelR + (A * z5)
+
+
+      if pixelR > 255:
+        pixelR = 255
+      elif pixelR < 0:
+        pixelR = 0
+
+      imgCopy.putpixel((x, y), int(pixelR))
     
   return imgCopy
 
@@ -471,7 +525,12 @@ def prewitt(img):
 
         pixelR = abs((z7 + z8 + z9) - (z1 + z2 + z3)) + abs((z3 + z6 + z9) - (z1 + z4 + z7))
 
-        imgCopy.putpixel((x, y), pixelR.__ceil__())
+      if pixelR > 255:
+        pixelR = 255
+      elif pixelR < 0:
+        pixelR = 0
+
+        imgCopy.putpixel((x, y), int(pixelR))
     
 
     return imgCopy
@@ -479,25 +538,65 @@ def prewitt(img):
 
 
 def sobel(img):
-    imgCopy = img.copy()
+  imgCopy = img.copy()
 
-    for y in range(0, img.size[0]-1):
-      for x in range(0, img.size[1]-1):
-        mask = fillMask(img, x, y)
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      mask = fillMask(img, x, y)
 
-        z1 = mask[0][0]
-        z2 = mask[0][1]
-        z3 = mask[0][2]
-        z4 = mask[1][0]
-        z5 = mask[1][1]
-        z6 = mask[1][2]
-        z7 = mask[2][0]
-        z8 = mask[2][1]
-        z9 = mask[2][2]
+      z1 = mask[0][0]
+      z2 = mask[0][1]
+      z3 = mask[0][2]
+      z4 = mask[1][0]
+      z5 = mask[1][1]
+      z6 = mask[1][2]
+      z7 = mask[2][0]
+      z8 = mask[2][1]
+      z9 = mask[2][2]
 
-        pixelR = abs((z7 + (2*z8) + z9) - (z1 + (2*z2) + z3)) + abs((z3 + (2*z6) + z9) - (z1 + (2*z4) + z7))
+      pixelR = abs((z7 + (2*z8) + z9) - (z1 + (2*z2) + z3)) + abs((z3 + (2*z6) + z9) - (z1 + (2*z4) + z7))
+      
+      if pixelR > 255:
+        pixelR = 255
+      elif pixelR < 0:
+        pixelR = 0
 
-        imgCopy.putpixel((x, y), pixelR.__ceil__())
+      imgCopy.putpixel((x, y), int(pixelR))
     
+  return imgCopy
 
-    return imgCopy
+
+def simulateGrayLevelPalletRedution(img, n):
+  imgCopy = img.copy()
+
+  # first, get the image histogram
+  ih = img.size[0]-1
+  iw = img.size[1]-1
+
+  hist = np.zeros([256], np.int32)
+
+  for x in range(0, ih):
+    for y in range(0, iw):
+      hist[img.getpixel((y, x))] += 1
+  
+  # get the n most frequent colors
+  mostFrequentColors = np.argsort(hist)[::-1][:n]
+
+  for y in range(0, img.size[0]-1):
+    for x in range(0, img.size[1]-1):
+      pixel = img.getpixel((x, y))
+
+      # if the pixel is one of the most frequent colors, keep it
+      if pixel in mostFrequentColors:
+        imgCopy.putpixel((x, y), int(pixel))
+        continue;
+
+      # get the closest color
+      closestColor = mostFrequentColors[0]
+      for color in mostFrequentColors:
+        if abs(pixel - color) < abs(pixel - closestColor):
+          closestColor = color
+
+      imgCopy.putpixel((x, y), int(closestColor))
+    
+  return imgCopy
