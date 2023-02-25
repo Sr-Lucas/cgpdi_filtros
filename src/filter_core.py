@@ -12,11 +12,9 @@ def negativeFilter(img):
   copy = img.copy()
 
   for i in range(0, img.size[0]-1):
-    for j in range(0, img.size[1]-1):
-        # Get pixel value at (x,y) position of the image
+    for j in range(0, img.size[1]-1):        
         pixel = img.getpixel((i,j))
 
-        # Invert color
         outputPixel = 255 - pixel
         copy.putpixel((i,j), outputPixel)
   
@@ -413,7 +411,7 @@ def sumImages(img1Path: str, img2Path: str, img1percentual = 0.5, img2percentual
 
   cv2.imwrite(f"./filtered/{filename}", dst)
 
-  return f"{filename}.{ext}"
+  return filename
 
 
 def laplaciano(img):

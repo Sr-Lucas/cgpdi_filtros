@@ -118,11 +118,14 @@ def inverseLogaritmicFilter():
         } 
     })
 
-@app.route('/nth-power-filter', methods=['POST'])
+@app.route('/nth_power_filter', methods=['POST'])
 def nthPoewerFilter():
     data = request.get_json()
     filename = data.get('filename')
     gamma = data.get('gamma')
+
+    print(filename)
+    print(gamma)
 
     if not filename:
         return jsonify({ "success": False })
@@ -317,7 +320,7 @@ def expansion():
         return jsonify({ "success": False })
     
     img = Image.open("./uploads/" + filename)
-    rimg = filter_core.expansion(img, a, b)
+    rimg = filter_core.expansion(img, int(a), int(b))
 
     ext = filename.split('.')[1]
     newFilename = str(time()).replace('.', '') + "." + ext
@@ -490,7 +493,7 @@ def kNearestNeighbour():
         return jsonify({ "success": False })
     
     img = Image.open("./uploads/" + filename)
-    rimg = filter_core.kNearestNeighbour(img, int(k))
+    rimg = filter_core.kNearestNeightborFilter(img, int(k))
 
     ext = filename.split('.')[1]
     newFilename = str(time()).replace('.', '') + "." + ext
