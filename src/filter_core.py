@@ -71,7 +71,7 @@ def nthPoewerFilter(img, gamma = 1.0):
       pixel = img.getpixel((i,j))
 
       outputPixel: float = 255 * ((pixel / 255) ** gamma)
-      copy.putpixel((i,j),(outputPixel.__ceil__()))
+      copy.putpixel((i,j),(outputPixel.__round__()))
   
   return copy
 
@@ -85,7 +85,7 @@ def nthRootFilter(img, gamma = 1.0):
       pixel = img.getpixel((i,j))
 
       outputPixel = 255 * ((pixel / 255) ** (1/gamma))
-      copy.putpixel((i,j),(outputPixel.__ceil__()))
+      copy.putpixel((i,j),(outputPixel.__round__()))
   
   return copy
 
@@ -158,7 +158,7 @@ def compression(img, a = 3, b = 1):
     for x in range(0, img.size[1]-1):
       pixel = img.getpixel((x, y))
       rPixel = (pixel / a) - b
-      imgCopy.putpixel((x, y), rPixel.__ceil__())
+      imgCopy.putpixel((x, y), rPixel.__round__())
   
   return imgCopy
 
@@ -170,7 +170,7 @@ def expansion(img, a = 3, b = 1):
     for x in range(0, img.size[1]-1):
       pixel = img.getpixel((x, y))
       rPixel = (a * pixel) - b
-      imgCopy.putpixel((x, y), rPixel.__ceil__())
+      imgCopy.putpixel((x, y), rPixel.__round__())
   
   return imgCopy
 
@@ -203,7 +203,7 @@ def maxFilter(img):
           if (mask[a][b] > max):
             max = mask[a][b]
       
-      imgCopy.putpixel((x, y), max.__ceil__())
+      imgCopy.putpixel((x, y), max.__round__())
   
   return imgCopy
 
@@ -222,7 +222,7 @@ def minFilter(img):
           if (mask[a][b] < min):
             min = mask[a][b]
       
-      imgCopy.putpixel((x, y), min.__ceil__())
+      imgCopy.putpixel((x, y), min.__round__())
   
   return imgCopy
 
@@ -238,7 +238,7 @@ def modaFilter(img):
 
       modeResult = st.mode(mask.flatten())
 
-      imgCopy.putpixel((x, y), modeResult.mode[0].__ceil__())
+      imgCopy.putpixel((x, y), modeResult.mode[0].__round__())
   
   return imgCopy
 
@@ -274,7 +274,7 @@ def pseudoMedianaFilter(img):
 
       pseudoMedian = (maxmin + minmax)/2
 
-      imgCopy.putpixel((x, y), pseudoMedian.__ceil__())
+      imgCopy.putpixel((x, y), pseudoMedian.__round__())
   
   return imgCopy
 
@@ -349,8 +349,9 @@ def expand_image_bilinear(input_path, scale_factor):
 
 
 def kNearestNeightborFilter(img, k: int):
-  if k >= (MASK_SIZE * MASK_SIZE) - 1:
-    return 0
+  kn = k
+  if kn >= (MASK_SIZE * MASK_SIZE) - 1:
+    kn = (MASK_SIZE * MASK_SIZE) - 1
 
   imgCopy = img.copy()
   for y in range(0, img.size[0]-1):
@@ -365,21 +366,21 @@ def kNearestNeightborFilter(img, k: int):
       maskFlatten = mask.flatten()
       maskFlatten[int(mask.size/2)] = 99999999
 
-      nearCalcArr = []
+      pivoDistanceArr = []
       for i in range(0, mask.size):
-        nearCalcArr.append(abs(maskFlatten[i] - pivo))
+        pivoDistanceArr.append(abs(maskFlatten[i] - pivo))
       
-      sortedArr = nearCalcArr.copy()
+      sortedArr = pivoDistanceArr.copy()
       sortedArr.sort()
 
-      sum = 0
+      sumRes = 0
       for i in range(0, k):
-        index = nearCalcArr.index(sortedArr[i])
-        sum += maskFlatten[index]
+        index = pivoDistanceArr.index(sortedArr[i])
+        sumRes += maskFlatten[index]
       
-      knnResult = sum/k
+      knnResult = sumRes/k
 
-      imgCopy.putpixel((x, y), knnResult.__ceil__())
+      imgCopy.putpixel((x, y), knnResult.__round__())
 
   return imgCopy
 
@@ -525,10 +526,10 @@ def prewitt(img):
 
         pixelR = abs((z7 + z8 + z9) - (z1 + z2 + z3)) + abs((z3 + z6 + z9) - (z1 + z4 + z7))
 
-      if pixelR > 255:
-        pixelR = 255
-      elif pixelR < 0:
-        pixelR = 0
+        if pixelR > 255:
+          pixelR = 255
+        elif pixelR < 0:
+          pixelR = 0
 
         imgCopy.putpixel((x, y), int(pixelR))
     

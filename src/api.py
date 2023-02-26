@@ -427,67 +427,13 @@ def pseudoMedianaFilter():
         } 
     })
 
-@app.route('/nnr-ampliation', methods=['POST'])
-def nnrAmpliation():
-    data = request.get_json()
-    filename = data.get('filename')
-    size = data.get('size')
-
-    # size has to be 256 or 512 or 1024
-    if size not in [256, 512, 1024]:
-        return jsonify({ "success": False })
-
-    if not filename:
-        return jsonify({ "success": False })
-    
-    img = Image.open("./uploads/" + filename)
-    rimg = filter_core.nnrAmpliation(img, int(size))
-
-    ext = filename.split('.')[1]
-    newFilename = str(time()).replace('.', '') + "." + ext
-
-    rimg.save('./filtered/' + newFilename)
-
-    return jsonify({ 
-        'success': True, 
-        "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
-        } 
-    })
-
-@app.route('/bir-ampliation', methods=['POST'])
-def birAmpliation():
-    data = request.get_json()
-    filename = data.get('filename')
-    size = data.get('size')
-
-    # size has to be 256 or 512 or 1024
-    if size not in [256, 512, 1024]:
-        return jsonify({ "success": False })
-
-    if not filename:
-        return jsonify({ "success": False })
-    
-    img = Image.open("./uploads/" + filename)
-    rimg = filter_core.birAmpliation(img, int(size))
-
-    ext = filename.split('.')[1]
-    newFilename = str(time()).replace('.', '') + "." + ext
-
-    rimg.save('./filtered/' + newFilename)
-
-    return jsonify({ 
-        'success': True, 
-        "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
-        } 
-    })
-
 @app.route('/k-nearest-neighbour', methods=['POST'])
 def kNearestNeighbour():
     data = request.get_json()
     filename = data.get('filename')
     k = data.get('k')
+
+    print(filename, k)
 
     if not filename:
         return jsonify({ "success": False })
@@ -677,6 +623,42 @@ def simulate_grey_level_reduction():
     newFilename = str(time()).replace('.', '') + "." + ext
 
     rimg.save('./filtered/' + newFilename)
+
+    return jsonify({ 
+        'success': True, 
+        "data": {
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+        } 
+    })
+
+@app.route('/amplify_neartest_neightbor', methods=['POST'])
+def amplify_neartest_neightbor():
+    data = request.get_json()
+    filename = data.get('filename')
+    scale_factor = data.get('scale_factor')
+
+    if not filename:
+        return jsonify({ "success": False })
+    
+    newFilename = filter_core.expand_image_nn("./uploads/" + filename, int(scale_factor))
+
+    return jsonify({ 
+        'success': True, 
+        "data": {
+            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+        } 
+    })
+
+@app.route('/amplify_bilinear', methods=['POST'])
+def amplify_bilinear():
+    data = request.get_json()
+    filename = data.get('filename')
+    scale_factor = data.get('scale_factor')
+
+    if not filename:
+        return jsonify({ "success": False })
+    
+    newFilename = filter_core.expand_image_bilinear("./uploads/" + filename, int(scale_factor))
 
     return jsonify({ 
         'success': True, 
