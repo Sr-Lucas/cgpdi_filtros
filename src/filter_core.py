@@ -449,9 +449,10 @@ def laplaciano(img):
 
   imgCopy = img.copy()
     
-  mask = np.zeros([3])
   for y in range(0, img.size[0]-1):
     for x in range(0, img.size[1]-1):
+      mask = fillMask(img, x, y)
+
       z1 = mask[0][0]
       z2 = mask[0][1]
       z3 = mask[0][2]
