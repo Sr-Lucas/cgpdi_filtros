@@ -21,7 +21,7 @@ FLASK_HOST = 'localhost'
 FLASK_PORT = '3333'
 
 
-def create_app(testing: bool = True):
+def create_app(environ, start_response):
     app = Flask(__name__)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     CORS(app, resources={r"/*": {"origins": "*"}})
