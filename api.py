@@ -67,7 +67,7 @@ def negativeFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -90,7 +90,7 @@ def logaritmicFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -113,7 +113,7 @@ def inverseLogaritmicFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -140,7 +140,7 @@ def nthPoewerFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -164,7 +164,7 @@ def nthRootFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -187,7 +187,7 @@ def horizontalMirrorFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -210,7 +210,7 @@ def verticalMirrorFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -233,7 +233,7 @@ def rotation90ClockwiseFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -256,7 +256,7 @@ def rotation90AnticlockwiseFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -279,7 +279,7 @@ def rotation180Filter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -304,7 +304,7 @@ def compression():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -329,7 +329,7 @@ def expansion():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -353,7 +353,7 @@ def maxFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -376,7 +376,7 @@ def minFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -399,7 +399,7 @@ def modaFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -422,7 +422,7 @@ def pseudoMedianaFilter():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -448,7 +448,7 @@ def kNearestNeighbour():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -466,7 +466,7 @@ def makeHistogram():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/hist/{filename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/hist/{filename}"
         } 
     })
 
@@ -489,7 +489,7 @@ def equalizeImage():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -508,7 +508,7 @@ def sumImages():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{filename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{filename}"
         } 
     })
 
@@ -531,7 +531,7 @@ def laplaciano():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -555,7 +555,7 @@ def hightboost():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -578,7 +578,7 @@ def prewitt():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -601,7 +601,7 @@ def sobel():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -626,7 +626,7 @@ def simulate_grey_level_reduction():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -644,7 +644,7 @@ def amplify_neartest_neightbor():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
@@ -662,7 +662,7 @@ def amplify_bilinear():
     return jsonify({ 
         'success': True, 
         "data": {
-            'url': f"http://{FLASK_HOST}:{FLASK_PORT}/files/{newFilename}"
+            'url': f"https://cg-pdi-api.onrender.com/files/{newFilename}"
         } 
     })
 
